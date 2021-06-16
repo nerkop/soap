@@ -1,0 +1,252 @@
+<wsdl:definitions targetNamespace="http://endpoints.leonus.gbkr.si/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:schema="http://jcam.org.uk/exchange/wsdl"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="http://endpoints.leonus.gbkr.si/">
+    <wsdl:types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://endpoints.leonus.gbkr.si/">
+            <xs:element name="getClientById">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="1" minOccurs="1" name="clientId" default="4173901">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:long">
+                                    <xs:totalDigits value="7"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getClientByIdResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="error"/>
+                        <xs:element name="clients"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="error">
+                <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="status" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="code" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="description" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="clients">
+                <xs:sequence>
+                    <xs:element name="Client" minOccurs="1" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Client">
+                <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="0" name="clientId" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="name" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="getAccountsByClientId">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="1" minOccurs="1" name="clientID" type="xs:string" default="2007106"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAccountsByClientIdResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="error"/>
+                        <xs:element name="accounts"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="accounts">
+                <xs:sequence>
+                    <xs:element name="account"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="account">
+                <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="0" name="accountId" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="accountNumber" type="xs:string"/>
+                    <xs:element name="BalanceTrends"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="balanceTrends">
+                <xs:sequence>
+                    <xs:element name="balanceTrend" minOccurs="1" maxOccurs="unbounded"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="currency" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="iban" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="name" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="owner" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="status" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="totalBalance">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                                <xs:totalDigits value="20"/>
+                                <xs:fractionDigits value="2"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="0" name="type" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="balanceTrend">
+                <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="0" name="day" type="xs:date"/>
+                    <xs:element maxOccurs="1" minOccurs="0" name="balance">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                                <xs:totalDigits value="20"/>
+                                <xs:fractionDigits value="2"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="getAccountTransactions">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="filter" type="tns:filter"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="filter">
+                <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="clientId" type="xs:string" default="99012460"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="iban" type="xs:string" default="SI56070000000542902"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="currency" type="xs:string" default="EUR"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="paymentDateFrom" type="xs:string"
+                                default="2017-01-27"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="paymentDateTo" type="xs:string" default="2017-02-25"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="paymentAmountFrom" type="xs:string" default="10"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="paymentAmountTo" type="xs:string" default="10000"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="transactionType" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="payer" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="paymentDescription" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="modelDebtor" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="debtorReference" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="modelCreditor" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="creditorReference" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="transactionStatus" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="cardTransaction" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="officeTransaction" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="1" name="onlinePaymentTransaction" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="getAccountTransactionsResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="error"/>
+                        <xs:element name="transactions"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="transactions">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="1" minOccurs="1" name="bic" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="0" name="chargeBearer" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="creditorAccount" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="creditorAddress" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="creditorCity" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="creditorCountry" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="creditorName" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="0" name="creditorModel" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="0" name="creditorReference" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="debtorAccount" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="debtorAddress" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="debtorCity" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="debtorCountry" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="0" name="debtorModel" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="debtorName" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="0" name="debtorReference" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="exchangeTransaction" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="feeCurrency" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="flow" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="module" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="paymentAmount" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="paymentCurrency" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="paymentDate" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="paymentDescription" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="priority" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="status" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="transactionId" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getClientByIdIn">
+        <wsdl:part element="tns:getClientById" name="tns:getClientById"/>
+    </wsdl:message>
+    <wsdl:message name="getClientByIdOut">
+        <wsdl:part element="tns:getClientByIdResponse" name="tns:getClientByIdResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getAccountsByClientIdIn">
+        <wsdl:part element="tns:getAccountsByClientId" name="tns:getAccountsByClientId"/>
+    </wsdl:message>
+    <wsdl:message name="getAccountsByClientIdOut">
+        <wsdl:part element="tns:getAccountsByClientIdResponse" name="tns:getAccountsByClientIdResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getAccountTransactionsIn">
+        <wsdl:part element="tns:getAccountTransactions" name="tns:getAccountTransactions"/>
+    </wsdl:message>
+    <wsdl:message name="getAccountTransactionsOut">
+        <wsdl:part element="tns:getAccountTransactionsResponse" name="tns:getAccountTransactionsResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="Mobilna_banka_sme(abc)Soap">
+        <wsdl:operation name="getClientById">
+            <wsdl:input message="tns:getClientByIdIn"/>
+            <wsdl:output message="tns:getClientByIdOut"/>
+        </wsdl:operation>
+        <wsdl:operation name="getAccountsByClientId">
+            <wsdl:input message="tns:getAccountsByClientIdIn"/>
+            <wsdl:output message="tns:getAccountsByClientIdOut"/>
+        </wsdl:operation>
+        <wsdl:operation name="getAccountTransactions">
+            <wsdl:input message="tns:getAccountTransactionsIn"/>
+            <wsdl:output message="tns:getAccountTransactionsOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="Mobilna_banka_sme(abc)Soap" type="tns:Mobilna_banka_sme(abc)Soap">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getClientById">
+            <soap:operation soapAction="http://10.153.254.50:9080/wss/getClientById"
+                            style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getAccountsByClientId">
+            <soap:operation soapAction="http://10.153.254.50:9080/wss/getAccountsByClientId"
+                            style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getAccountTransactions">
+            <soap:operation soapAction="http://10.153.254.50:9080/wss/getAccountTransactions"
+                            style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="Mobilna_banka_sme(abc)">
+        <wsdl:documentation>Spletni servis - mobilna banka SME</wsdl:documentation>
+        <wsdl:port binding="tns:Mobilna_banka_sme(abc)Soap" name="Mobilna_banka_sme(abc)Soap">
+            <soap:address location="http://10.153.254.50:9080/wss/SME"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
